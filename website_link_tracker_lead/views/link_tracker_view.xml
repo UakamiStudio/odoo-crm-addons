@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    
+    <record id="view_link_tracker_lead_form" model="ir.ui.view">
+      <field name="name">link.tracker.lead.form</field>
+      <field name="model">link.tracker</field>
+      <field name="inherit_id" ref="link_tracker.view_link_tracker_form" />
+      <field name="arch" type="xml">
+
+        <div name="button_box" position="inside">
+          <button name="action_view_leads"
+                  type="object"
+                  class="oe_stat_button"
+                  icon="fa-pencil-square-o"
+                  attrs="{'invisible': [('leads_count', '=', 0)]}">
+            <field name="leads_count" widget="statinfo" string="Leads"/>
+          </button>
+        </div>
+
+        <field name="short_url" position="after">
+          <field name="url_tracking_lead" />
+        </field>
+        
+      </field>
+    </record>
+
+    <record id="crm_link_tracker_lead_action" model="ir.actions.act_window">
+      <field name="name">Leads that clicked the link</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">crm.lead</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>
