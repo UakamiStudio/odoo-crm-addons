@@ -11,11 +11,10 @@ from odoo.addons.web.controllers.main import Home
 
 class LinkTrackerLead(Home):
 
-    @http.route(
-        '/ltl/<model("link.tracker"):link>/<model("crm.lead"):lead>',
-        type='http',
-        auth='public')
-    def record_link_in_lead(self, link, lead, **kw):
-        if link.id not in lead.mapped('link_tracker_ids.id'):
-            lead.write({'link_tracker_ids': [(4, link.id)]})
+    @http.route('/ltl/<int:link_id>/<int:lead_id>', type='http', auth='public')
+    def record_link_in_lead(self, link_id, lead_id, **kw):
+        lead = request.env['crm.lead'].sudo().browse(lead_id)
+        link = request.env['link.tracker'].sudo().browse(link_id)
+        if link_id not in lead.mapped('link_tracker_ids.id'):
+            lead.write({'link_tracker_ids': [(4, link_id)]})
         return werkzeug.utils.redirect(link.short_url)
